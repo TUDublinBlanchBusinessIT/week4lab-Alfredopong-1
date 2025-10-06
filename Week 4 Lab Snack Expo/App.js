@@ -5,20 +5,12 @@ import {
   Text,
   TextInput,
   Button,
-  Alert
+  Alert,
+  StyleSheet
 } from 'react-native';
 
 export default function App() {
-
-  const gradePoints = {
-    'F': 0,
-    'D': 1.5,
-    'C': 2,
-    'C+': 2.75,
-    'B': 3,
-    'B+': 3.5,
-    'A': 4
-  };
+  const gradePoints = { F:0, D:1.5, C:2, 'C+':2.75, B:3, 'B+':3.5, A:4 };
 
   const [sswd, setSswD] = useState('');
   const [ob, setOb] = useState('');
@@ -27,71 +19,91 @@ export default function App() {
   const totalCredits = 10;
 
   function clickMe() {
-    alert("this is the click me button");   // web
-    Alert.alert("this is the click me button");  // mobile
+    alert("this is the click me button");
+    Alert.alert("this is the click me button");
 
-    const ssw = sswd.toUpperCase();
-    const oba = ob.toUpperCase();
+    const s1 = (gradePoints[(sswd||'').trim().toUpperCase()] || 0) * credits;
+    const s2 = (gradePoints[(ob||'').trim().toUpperCase()] || 0) * credits;
+    const total = s1 + s2;
+    const gpa = total / totalCredits;
 
-    const sswdScore = (gradePoints[ssw] || 0) * credits;
-    const obScore = (gradePoints[oba] || 0) * credits;
-    const totalScore = sswdScore + obScore;
-
-    const gpa = totalScore / totalCredits;
-
-    const result = "Total Score: " + totalScore + "/" + totalCredits + "\nGPA: " + gpa.toFixed(2);
-    alert(result);
-    Alert.alert("GPA Result", result);
+    const msg = `Total Score: ${total}/${totalCredits}\nGPA: ${gpa.toFixed(2)}`;
+    alert(msg);
+    Alert.alert("GPA Result", msg);
   }
 
-  return (
-    <SafeAreaView style={{ padding: 20 }}>
-      <View>
-        <Text
-          style={{
-            fontSize: 24,
-            fontWeight: "bold",
-            textAlign: "center",
-            marginTop: "10%"
-          }}
-        >
-          GPA Calculator
-        </Text>
-      </View>
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      paddingTop: "8%",
+      paddingBottom: "8%",
+      paddingHorizontal: "5%",
+      backgroundColor: "#fff"
+    },
+    row: {
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "space-between",
+      marginLeft: "0%",
+      marginRight: "0%",
+      padding: "2.5%",
+      marginBottom: "3%",
+      borderWidth: 1,
+      borderColor: "#e5e5e5",
+      borderRadius: 10
+    },
+    label: {
+      width: "48%",
+      fontSize: 16,
+      fontWeight: "600"
+    },
+    textInput: {
+      width: "48%",
+      borderWidth: 1,
+      borderColor: "#ccc",
+      borderRadius: 8,
+      paddingVertical: 10,
+      paddingHorizontal: 12
+    },
+    title: {
+      fontSize: 24,
+      fontWeight: "bold",
+      textAlign: "center",
+      marginBottom: "5%"
+    },
+    buttonRow: {
+      marginTop: "4%"
+    }
+  });
 
-      <View style={{ marginTop: 20 }}>
-        <Text>SSWD</Text>
+  return (
+    <SafeAreaView style={styles.container}>
+      <Text style={styles.title}>GPA Calculator</Text>
+
+      <View style={styles.row}>
+        <Text style={styles.label}>SSWD</Text>
         <TextInput
+          style={styles.textInput}
           placeholder="Grade (A, B, C+, D, F)"
           value={sswd}
           onChangeText={setSswD}
           autoCapitalize="characters"
-          style={{
-            borderWidth: 1,
-            borderRadius: 5,
-            padding: 8,
-            marginTop: 5
-          }}
         />
       </View>
+      
 
-      <View style={{ marginTop: 20 }}>
-        <Text>Organisational Behaviour</Text>
+      <View style={styles.row}>
+        <Text style={styles.label}>Organisational Behaviour</Text>
         <TextInput
+          style={styles.textInput}
           placeholder="Grade (A, B, C+, D, F)"
           value={ob}
           onChangeText={setOb}
           autoCapitalize="characters"
-          style={{
-            borderWidth: 1,
-            borderRadius: 5,
-            padding: 8,
-            marginTop: 5
-          }}
         />
       </View>
 
-      <View style={{ marginTop: 30 }}>
+      <View style={styles.buttonRow}>
         <Button title="Submit" onPress={clickMe} />
       </View>
     </SafeAreaView>

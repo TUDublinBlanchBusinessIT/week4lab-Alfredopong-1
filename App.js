@@ -90,6 +90,7 @@ export default function App() {
           autoCapitalize="characters"
         />
       </View>
+      
 
       <View style={styles.row}>
         <Text style={styles.label}>Organisational Behaviour</Text>
