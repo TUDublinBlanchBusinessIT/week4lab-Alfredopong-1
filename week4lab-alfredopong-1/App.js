@@ -14,17 +14,21 @@ export default function App() {
 
   const [sswd, setSswD] = useState('');
   const [ob, setOb] = useState('');
+  const [mobileApps, setMobileApps] = useState('');
+  const [digitalMarketing, setDigitalMarketing] = useState('');
+  const [ooad, setOoad] = useState('');
+  const [finMgmt, setFinMgmt] = useState('');
 
   const credits = 5;
-  const totalCredits = 10;
+  const totalCredits = 30;
 
   function clickMe() {
     alert("this is the click me button");
     Alert.alert("this is the click me button");
 
-    const s1 = (gradePoints[(sswd||'').trim().toUpperCase()] || 0) * credits;
-    const s2 = (gradePoints[(ob||'').trim().toUpperCase()] || 0) * credits;
-    const total = s1 + s2;
+    const vals = [sswd, ob, mobileApps, digitalMarketing, ooad, finMgmt];
+    const toPts = (v) => (gradePoints[(v || '').trim().toUpperCase()] || 0);
+    const total = vals.reduce((s, v) => s + toPts(v) * credits, 0);
     const gpa = total / totalCredits;
 
     const msg = `Total Score: ${total}/${totalCredits}\nGPA: ${gpa.toFixed(2)}`;
@@ -90,7 +94,6 @@ export default function App() {
           autoCapitalize="characters"
         />
       </View>
-      
 
       <View style={styles.row}>
         <Text style={styles.label}>Organisational Behaviour</Text>
@@ -99,6 +102,50 @@ export default function App() {
           placeholder="Grade (A, B, C+, D, F)"
           value={ob}
           onChangeText={setOb}
+          autoCapitalize="characters"
+        />
+      </View>
+
+      <View style={styles.row}>
+        <Text style={styles.label}>Mobile Apps</Text>
+        <TextInput
+          style={styles.textInput}
+          placeholder="Grade (A, B, C+, D, F)"
+          value={mobileApps}
+          onChangeText={setMobileApps}
+          autoCapitalize="characters"
+        />
+      </View>
+
+      <View style={styles.row}>
+        <Text style={styles.label}>Digital Marketing</Text>
+        <TextInput
+          style={styles.textInput}
+          placeholder="Grade (A, B, C+, D, F)"
+          value={digitalMarketing}
+          onChangeText={setDigitalMarketing}
+          autoCapitalize="characters"
+        />
+      </View>
+
+      <View style={styles.row}>
+        <Text style={styles.label}>Object Oriented Analysis</Text>
+        <TextInput
+          style={styles.textInput}
+          placeholder="Grade (A, B, C+, D, F)"
+          value={ooad}
+          onChangeText={setOoad}
+          autoCapitalize="characters"
+        />
+      </View>
+
+      <View style={styles.row}>
+        <Text style={styles.label}>Financial Management</Text>
+        <TextInput
+          style={styles.textInput}
+          placeholder="Grade (A, B, C+, D, F)"
+          value={finMgmt}
+          onChangeText={setFinMgmt}
           autoCapitalize="characters"
         />
       </View>
