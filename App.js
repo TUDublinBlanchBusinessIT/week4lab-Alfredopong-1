@@ -1,47 +1,110 @@
-import { SafeAreaView, Text, View, TextInput, Button, Alert, StyleSheet } from 'react-native';
-import {useState} from 'react';
+import React, { useState } from 'react';
+import {
+  SafeAreaView,
+  View,
+  Text,
+  TextInput,
+  Button,
+  Alert,
+  StyleSheet
+} from 'react-native';
 
 export default function App() {
-  const gradePoints = {'F': 0,'D': 1.5,'C': 2,'C+': 2.75, 'B': 3, 'B+': 3.5,  'A': 4 };
-  
-  const [sswd, setSswd] = useState('D');
-  const [ob, setOb] = useState('D');
-  
-  var gpa=0;
-  var credits=5;
-  var totalPossibleCredits = 10;
-  var totalGradeScores = 0;
-  
-  function clickMe(){
-    alert("this is the click me button"); //alert for web
-    Alert.alert("this is the click me button"); //alert for phone
-    //get the studnet's gradePointsfor SSWD, multiply it by the credits 
-    //add the result to totalGradeScores as an accumulator variable (e.g. tgs=tgs+sswd)
+  const gradePoints = { F:0, D:1.5, C:2, 'C+':2.75, B:3, 'B+':3.5, A:4 };
 
-    
-    //get the student's gradePointsfor Ob, multiply it by the credits
-    //add the result to totalGradeScores as an accumulator variable (e.g. tgs=tgs+ob)
-   
-    //calculate the gpa as the totalsGradeScores divided by the totalPossibleCredits
-    //Output the calculated GPA result to the user using an alert (you must concatenate the gpa)
+  const [sswd, setSswD] = useState('');
+  const [ob, setOb] = useState('');
+
+  const credits = 5;
+  const totalCredits = 10;
+
+  function clickMe() {
+    alert("this is the click me button");
+    Alert.alert("this is the click me button");
+
+    const s1 = (gradePoints[(sswd||'').trim().toUpperCase()] || 0) * credits;
+    const s2 = (gradePoints[(ob||'').trim().toUpperCase()] || 0) * credits;
+    const total = s1 + s2;
+    const gpa = total / totalCredits;
+
+    const msg = `Total Score: ${total}/${totalCredits}\nGPA: ${gpa.toFixed(2)}`;
+    alert(msg);
+    Alert.alert("GPA Result", msg);
   }
 
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      paddingTop: "8%",
+      paddingBottom: "8%",
+      paddingHorizontal: "5%",
+      backgroundColor: "#fff"
+    },
+    row: {
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "space-between",
+      marginLeft: "0%",
+      marginRight: "0%",
+      padding: "2.5%",
+      marginBottom: "3%",
+      borderWidth: 1,
+      borderColor: "#e5e5e5",
+      borderRadius: 10
+    },
+    label: {
+      width: "48%",
+      fontSize: 16,
+      fontWeight: "600"
+    },
+    textInput: {
+      width: "48%",
+      borderWidth: 1,
+      borderColor: "#ccc",
+      borderRadius: 8,
+      paddingVertical: 10,
+      paddingHorizontal: 12
+    },
+    title: {
+      fontSize: 24,
+      fontWeight: "bold",
+      textAlign: "center",
+      marginBottom: "5%"
+    },
+    buttonRow: {
+      marginTop: "4%"
+    }
+  });
 
-return (
-    <SafeAreaView>
-      <View><Text style={{flexDirection: "row", fontWeight: "bold", fontSize: 24, textAlign:"center", marginTop: "%10"}}>GPA Calculator</Text></View>
-      <View>
-        <Text>Maths</Text>
-        <TextInput  placeholder="Grade" onChangeText={setSswd}/>
+  return (
+    <SafeAreaView style={styles.container}>
+      <Text style={styles.title}>GPA Calculator</Text>
+
+      <View style={styles.row}>
+        <Text style={styles.label}>SSWD</Text>
+        <TextInput
+          style={styles.textInput}
+          placeholder="Grade (A, B, C+, D, F)"
+          value={sswd}
+          onChangeText={setSswD}
+          autoCapitalize="characters"
+        />
       </View>
-      <View >
-        <Text>Organisational Behaviour</Text>
-        <TextInput placeholder="Grade" onChangeText={setOb)}/>
+
+      <View style={styles.row}>
+        <Text style={styles.label}>Organisational Behaviour</Text>
+        <TextInput
+          style={styles.textInput}
+          placeholder="Grade (A, B, C+, D, F)"
+          value={ob}
+          onChangeText={setOb}
+          autoCapitalize="characters"
+        />
       </View>
-      <View >
-        <Button title="submit" onPress={clickMe}/>
+
+      <View style={styles.buttonRow}>
+        <Button title="Submit" onPress={clickMe} />
       </View>
     </SafeAreaView>
   );
 }
-
